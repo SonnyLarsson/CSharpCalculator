@@ -1,6 +1,4 @@
-﻿
-
-namespace CSharpCalculator
+﻿namespace CSharpCalculator
 {
     //todo: just turn into struct?
     internal class CalcResult: ICalcResult

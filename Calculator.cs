@@ -1,5 +1,4 @@
-﻿
-namespace CSharpCalculator
+﻿namespace CSharpCalculator
 {
     internal class Calculator : ICalculator
     {
