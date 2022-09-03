@@ -9,6 +9,7 @@ namespace CSharpCalculator
     {
         private CalcButtonMethods _calc;
         private ICalcResult _calcResult;
+        private IValidator _validation;
         private string _previousSumString;
 
         public CalculatorForm()
@@ -30,13 +31,14 @@ namespace CSharpCalculator
             ResultLabel.Text = "";
 
             _calc = new CalcButtonMethods(calculator);
+            _validation = new Validator();
         }
 
         #region CalcNumber
 
         private void CalcNumber_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!IsNumber(e.KeyChar, CalcNumber.Text)) e.Handled = true;
+            if (!_validation.IsNumber(e.KeyChar, CalcNumber.Text)) e.Handled = true;
         }
 
         private void CalcNumber_KeyUp(object sender, KeyEventArgs e)
@@ -198,15 +200,6 @@ namespace CSharpCalculator
                 ResultLabel.Text = $"{operationString} = {sumString}";
                 CurrentSumLabel.Text = sumString;
             }
-        }
-
-        private bool IsNumber(char entry, string text)
-        {
-            char decimalSeparator = Convert.ToChar(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator);
-            if (entry == decimalSeparator && text.IndexOf(decimalSeparator) != -1) return false;
-            if (!char.IsDigit(entry) && entry != decimalSeparator && entry != (char)Keys.Back) return false;
-
-            return true;
         }
 
         private void AddCalcNumber(string numberString)
