@@ -25,11 +25,12 @@ namespace CSharpCalculator
             };
 
             CalcNumber.Text = calculator.Number.ToString();
-            _previousSumString = "0";
-            ButtonDecimalSeparator.Text = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
             CurrentSumLabel.Text = "0";
             ResultLabel.Text = "";
 
+            ButtonDecimalSeparator.Text = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
+
+            _previousSumString = "0";
             _calc = new CalcButtonMethods(calculator);
             _validation = new Validator();
         }
