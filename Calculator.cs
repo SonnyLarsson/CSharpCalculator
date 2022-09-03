@@ -3,32 +3,32 @@ namespace CSharpCalculator
 {
     internal class Calculator : ICalculator
     {
-        private decimal number;
+        private decimal _number;
 
         public decimal Number
         {
-            get { return number; }
-            set { number = value; }
+            get { return _number; }
+            set { _number = value; }
         }
 
         public void MakeProduct(decimal multiplier)
         {
-            number *= multiplier;
+            _number *= multiplier;
         }
 
         public void MakeSum(decimal addition)
         {
-            number += addition;
+            _number += addition;
         }
 
         public void MakeDifference(decimal deduction)
         {
-            number -= deduction;
+            _number -= deduction;
         }
 
         public void MakeQuotient(decimal divider)
         {
-            number /= divider;
+            _number /= divider;
         }
     }
 }
