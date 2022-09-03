@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CSharpCalculator
+﻿namespace CSharpCalculator
 {
     internal interface ICalcResult {
         public string NumberString { get; }

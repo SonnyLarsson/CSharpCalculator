@@ -58,5 +58,11 @@
             return new CalcResult(calculator.Number.ToString(), result, info);
         }
 
+        internal ICalcResult Clear()
+        {
+            calculator.Number = 0;
+            return new CalcResult(calculator.Number.ToString(), true, "cleared");
+        }
+
     }
 }
