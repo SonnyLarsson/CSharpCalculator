@@ -47,6 +47,10 @@
             this.ButtonDecimalSeparator = new System.Windows.Forms.Button();
             this.ButtonC = new System.Windows.Forms.Button();
             this.CurrentSumLabel = new System.Windows.Forms.Label();
+            this.MemoryLabel = new System.Windows.Forms.Label();
+            this.ButtonMemory = new System.Windows.Forms.Button();
+            this.ButtonStopMeasuringMemory = new System.Windows.Forms.Button();
+            this.LabelMemoryButtons = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // AddButton
@@ -238,11 +242,55 @@
             this.CurrentSumLabel.TabIndex = 18;
             this.CurrentSumLabel.Text = "CurrentSumLabel";
             // 
+            // MemoryLabel
+            // 
+            this.MemoryLabel.AutoSize = true;
+            this.MemoryLabel.Location = new System.Drawing.Point(32, 498);
+            this.MemoryLabel.Name = "MemoryLabel";
+            this.MemoryLabel.Size = new System.Drawing.Size(80, 15);
+            this.MemoryLabel.TabIndex = 19;
+            this.MemoryLabel.Text = "MemoryLabel";
+            // 
+            // ButtonMemory
+            // 
+            this.ButtonMemory.Font = new System.Drawing.Font("Webdings", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.ButtonMemory.Location = new System.Drawing.Point(172, 524);
+            this.ButtonMemory.Name = "ButtonMemory";
+            this.ButtonMemory.Size = new System.Drawing.Size(24, 29);
+            this.ButtonMemory.TabIndex = 20;
+            this.ButtonMemory.Text = "4";
+            this.ButtonMemory.UseVisualStyleBackColor = true;
+            this.ButtonMemory.Click += new System.EventHandler(this.ButtonMemory_Click);
+            // 
+            // ButtonStopMeasuringMemory
+            // 
+            this.ButtonStopMeasuringMemory.Font = new System.Drawing.Font("Webdings", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.ButtonStopMeasuringMemory.Location = new System.Drawing.Point(202, 524);
+            this.ButtonStopMeasuringMemory.Name = "ButtonStopMeasuringMemory";
+            this.ButtonStopMeasuringMemory.Size = new System.Drawing.Size(23, 29);
+            this.ButtonStopMeasuringMemory.TabIndex = 21;
+            this.ButtonStopMeasuringMemory.Text = "<";
+            this.ButtonStopMeasuringMemory.UseVisualStyleBackColor = true;
+            this.ButtonStopMeasuringMemory.Click += new System.EventHandler(this.ButtonStopMeasuringMemory_Click);
+            // 
+            // LabelMemoryButtons
+            // 
+            this.LabelMemoryButtons.AutoSize = true;
+            this.LabelMemoryButtons.Location = new System.Drawing.Point(32, 531);
+            this.LabelMemoryButtons.Name = "LabelMemoryButtons";
+            this.LabelMemoryButtons.Size = new System.Drawing.Size(134, 15);
+            this.LabelMemoryButtons.TabIndex = 22;
+            this.LabelMemoryButtons.Text = "Measure memory usage";
+            // 
             // CalculatorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1055, 557);
+            this.Controls.Add(this.LabelMemoryButtons);
+            this.Controls.Add(this.ButtonStopMeasuringMemory);
+            this.Controls.Add(this.ButtonMemory);
+            this.Controls.Add(this.MemoryLabel);
             this.Controls.Add(this.CurrentSumLabel);
             this.Controls.Add(this.ButtonC);
             this.Controls.Add(this.ButtonDecimalSeparator);
@@ -291,5 +339,9 @@
         private System.Windows.Forms.Button ButtonDecimalSeparator;
         private System.Windows.Forms.Button ButtonC;
         private System.Windows.Forms.Label CurrentSumLabel;
+        private System.Windows.Forms.Label MemoryLabel;
+        private System.Windows.Forms.Button ButtonMemory;
+        private System.Windows.Forms.Button ButtonStopMeasuringMemory;
+        private System.Windows.Forms.Label LabelMemoryButtons;
     }
 }

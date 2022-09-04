@@ -1,7 +1,6 @@
-﻿using System;
+using System;
 using System.Globalization;
 using System.Windows.Forms;
-
 
 namespace CSharpCalculator
 {
@@ -10,7 +9,9 @@ namespace CSharpCalculator
         private CalcButtonMethods _calc;
         private ICalcResult _calcResult;
         private IValidator _validation;
+        private IMeasuringThread _memoryMeasurer;
         private string _previousSumString;
+        private bool _measuring;
 
         public CalculatorForm()
         {
@@ -33,6 +34,10 @@ namespace CSharpCalculator
             _previousSumString = "0";
             _calc = new CalcButtonMethods(calculator);
             _validation = new Validator();
+
+            MemoryLabel.Text = "";
+
+            _measuring = false;
         }
 
         #region CalcNumber
@@ -118,6 +123,16 @@ namespace CSharpCalculator
             }
         }
 
+        private void ResolveInput(string sumString, string operation)
+        {
+            if (CalcNumber.Text != "")
+            {
+                var operationString = $"{_previousSumString} {operation} {CalcNumber.Text}";
+                ResultLabel.Text = $"{operationString} = {sumString}";
+                CurrentSumLabel.Text = sumString;
+            }
+        }
+
         #endregion
 
         #region input_buttons
@@ -191,25 +206,66 @@ namespace CSharpCalculator
             ResultLabel.Text = _calcResult.Info;
         }
 
-        #endregion
-
-        private void ResolveInput(string sumString, string operation)
+        private void AddCalcNumber(string numberString)
         {
-            if (CalcNumber.Text != "")
+            if (CalcNumber.Text == "0")
             {
-                var operationString = $"{_previousSumString} {operation} {CalcNumber.Text}";
-                ResultLabel.Text = $"{operationString} = {sumString}";
-                CurrentSumLabel.Text = sumString;
+                CalcNumber.Text = numberString;
+            }
+            else
+            {
+                CalcNumber.Text += numberString;
             }
         }
 
-        private void AddCalcNumber(string numberString)
+        #endregion
+
+        #region memory_measuring
+
+        private void UpdateMemoryLabel(string text)
         {
-            if (CalcNumber.Text == "0") {
-                CalcNumber.Text = numberString;
-            } else {
-                CalcNumber.Text += numberString;
-            }            
+            try
+            {
+                Invoke(new MethodInvoker(() => MemoryLabel.Text = text));
+            }
+            catch (InvalidOperationException)
+            {
+                MemoryLabel.Text = "";
+            }
         }
+
+        private void ButtonMemory_Click(object sender, EventArgs e)
+        {
+            if (_memoryMeasurer == null) {
+                _memoryMeasurer = new MemoryMeasuringThread(UpdateMemoryLabel, _calcResult);
+            }
+
+            if (_measuring)
+            {
+                _memoryMeasurer.PauseMeasuring();
+                ButtonMemory.Text = "4";
+            }
+            
+            if (!_measuring) { 
+                _memoryMeasurer.StartMeasuring(2);
+                ButtonMemory.Text = ";";
+            }
+
+            _measuring = !_measuring;
+        }
+
+        private void ButtonStopMeasuringMemory_Click(object sender, EventArgs e)
+        {
+            if (_memoryMeasurer != null)
+            {
+                _memoryMeasurer.StopMeasuring();
+                _measuring = false;
+
+                MemoryLabel.Text = "";
+                ButtonMemory.Text = "4";
+            }
+        }
+
+        #endregion
     }
 }
