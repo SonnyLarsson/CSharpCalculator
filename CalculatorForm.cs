@@ -2,7 +2,6 @@
 using System.Globalization;
 using System.Windows.Forms;
 
-
 namespace CSharpCalculator
 {
     public partial class CalculatorForm : Form
@@ -10,7 +9,9 @@ namespace CSharpCalculator
         private CalcButtonMethods _calc;
         private ICalcResult _calcResult;
         private IValidator _validation;
+        private IMeasuringThread _memoryMeasurer;
         private string _previousSumString;
+        private bool _measuring;
 
         public CalculatorForm()
         {
@@ -33,6 +34,10 @@ namespace CSharpCalculator
             _previousSumString = "0";
             _calc = new CalcButtonMethods(calculator);
             _validation = new Validator();
+
+            MemoryLabel.Text = "";
+
+            _measuring = false;
         }
 
         #region CalcNumber
@@ -210,6 +215,50 @@ namespace CSharpCalculator
             } else {
                 CalcNumber.Text += numberString;
             }            
+        }
+
+        private void UpdateLabel(string text)
+        {
+            try
+            {
+                Invoke(new MethodInvoker(() => MemoryLabel.Text = text));
+            }
+            catch (InvalidOperationException)
+            {
+                MemoryLabel.Text = "";
+            }
+        }
+
+        private void ButtonMemory_Click(object sender, EventArgs e)
+        {
+            if (_memoryMeasurer == null) {
+                _memoryMeasurer = new MemoryMeasuringThread(UpdateLabel, _calcResult);
+            }
+
+            if (_measuring)
+            {
+                _memoryMeasurer.PauseMeasuring();
+                ButtonMemory.Text = "4";
+            }
+            
+            if (!_measuring) { 
+                _memoryMeasurer.StartMeasuring(2);
+                ButtonMemory.Text = ";";
+            }
+
+            _measuring = !_measuring;
+        }
+
+        private void ButtonStopMeasuringMemory_Click(object sender, EventArgs e)
+        {
+            if (_memoryMeasurer != null)
+            {
+                _memoryMeasurer.StopMeasuring();
+                _measuring = false;
+
+                MemoryLabel.Text = "";
+                ButtonMemory.Text = "4";
+            }
         }
     }
 }
