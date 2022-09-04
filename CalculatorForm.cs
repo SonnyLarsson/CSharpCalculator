@@ -123,6 +123,16 @@ namespace CSharpCalculator
             }
         }
 
+        private void ResolveInput(string sumString, string operation)
+        {
+            if (CalcNumber.Text != "")
+            {
+                var operationString = $"{_previousSumString} {operation} {CalcNumber.Text}";
+                ResultLabel.Text = $"{operationString} = {sumString}";
+                CurrentSumLabel.Text = sumString;
+            }
+        }
+
         #endregion
 
         #region input_buttons
@@ -196,28 +206,23 @@ namespace CSharpCalculator
             ResultLabel.Text = _calcResult.Info;
         }
 
-        #endregion
-
-        private void ResolveInput(string sumString, string operation)
+        private void AddCalcNumber(string numberString)
         {
-            if (CalcNumber.Text != "")
+            if (CalcNumber.Text == "0")
             {
-                var operationString = $"{_previousSumString} {operation} {CalcNumber.Text}";
-                ResultLabel.Text = $"{operationString} = {sumString}";
-                CurrentSumLabel.Text = sumString;
+                CalcNumber.Text = numberString;
+            }
+            else
+            {
+                CalcNumber.Text += numberString;
             }
         }
 
-        private void AddCalcNumber(string numberString)
-        {
-            if (CalcNumber.Text == "0") {
-                CalcNumber.Text = numberString;
-            } else {
-                CalcNumber.Text += numberString;
-            }            
-        }
+        #endregion
 
-        private void UpdateLabel(string text)
+        #region memory_measuring
+
+        private void UpdateMemoryLabel(string text)
         {
             try
             {
@@ -232,7 +237,7 @@ namespace CSharpCalculator
         private void ButtonMemory_Click(object sender, EventArgs e)
         {
             if (_memoryMeasurer == null) {
-                _memoryMeasurer = new MemoryMeasuringThread(UpdateLabel, _calcResult);
+                _memoryMeasurer = new MemoryMeasuringThread(UpdateMemoryLabel, _calcResult);
             }
 
             if (_measuring)
@@ -262,133 +267,5 @@ namespace CSharpCalculator
         }
 
         #endregion
-
-        #region calc_button_actions
-
-        private void ButtonAction(ECalcButtonActions currentAction)
-        {
-            ResolveOperation(currentAction);
-            CalcNumber.Text = "0";
-        }
-
-        private void ResolveOperation(ECalcButtonActions currentAction)
-        {
-            _previousSumString = _calcResult == null ? "0" : _calcResult.NumberString;
-            switch (currentAction)
-            {
-                case ECalcButtonActions.Add:
-                    _calcResult = _calc.Add(CalcNumber.Text);
-                    ResolveInput(_calcResult.NumberString, "+");
-                    break;
-                case ECalcButtonActions.Subtract:
-                    _calcResult = _calc.Subtract(CalcNumber.Text);
-                    ResolveInput(_calcResult.NumberString, "-");
-                    break;
-                case ECalcButtonActions.Multiply:
-                    _calcResult = _calc.Multiply(CalcNumber.Text);
-                    ResolveInput(_calcResult.NumberString, "*");
-                    break;
-                case ECalcButtonActions.Divide:
-                    _calcResult = _calc.Divide(CalcNumber.Text);
-                    ResolveInput(_calcResult.NumberString, "/");
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        #endregion
-
-        #region input_buttons
-
-        private void Button1_Click(object sender, EventArgs e)
-        {
-            AddCalcNumber("1");
-        }
-
-        private void Button2_Click(object sender, EventArgs e)
-        {
-            AddCalcNumber("2");
-        }
-
-        private void Button3_Click(object sender, EventArgs e)
-        {
-            AddCalcNumber("3");
-        }
-
-        private void Button4_Click(object sender, EventArgs e)
-        {
-            AddCalcNumber("4");
-        }
-
-        private void Button5_Click(object sender, EventArgs e)
-        {
-            AddCalcNumber("5");
-        }
-
-        private void Button6_Click(object sender, EventArgs e)
-        {
-            AddCalcNumber("6");
-        }
-
-        private void Button7_Click(object sender, EventArgs e)
-        {
-            AddCalcNumber("7");
-        }
-
-        private void Button8_Click(object sender, EventArgs e)
-        {
-            AddCalcNumber("8");
-        }
-
-        private void Button9_Click(object sender, EventArgs e)
-        {
-            AddCalcNumber("9");
-        }
-
-        private void ButtonDecimalSeparator_Click(object sender, EventArgs e)
-        {
-            if (CalcNumber.Text == "") CalcNumber.Text = "0";
-
-            if (!CalcNumber.Text.Contains(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator))
-            {
-                CalcNumber.Text += CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
-            }
-
-        }
-
-        private void Button0_Click(object sender, EventArgs e)
-        {
-            AddCalcNumber("0");
-        }
-
-        private void ButtonC_Click(object sender, EventArgs e)
-        {
-            _calcResult = _calc.Clear();
-            CalcNumber.Text = _calcResult.NumberString;
-            CurrentSumLabel.Text = _calcResult.NumberString;
-            ResultLabel.Text = _calcResult.Info;
-        }
-
-        #endregion
-
-        private void ResolveInput(string sumString, string operation)
-        {
-            if (CalcNumber.Text != "")
-            {
-                var operationString = $"{_previousSumString} {operation} {CalcNumber.Text}";
-                ResultLabel.Text = $"{operationString} = {sumString}";
-                CurrentSumLabel.Text = sumString;
-            }
-        }
-
-        private void AddCalcNumber(string numberString)
-        {
-            if (CalcNumber.Text == "0") {
-                CalcNumber.Text = numberString;
-            } else {
-                CalcNumber.Text += numberString;
-            }            
-        }
     }
 }
